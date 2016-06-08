@@ -56,24 +56,95 @@ Dublin Software Craftsmanship Community
 <!-- ########################################################################################### -->
 
 <section data-markdown><script type="text/template">
-### State change as a side effect
-
-- Grab a pair
-- Clone https://github.com/dubswcraft/handson-bdd.git if you do not have a starting point
-- Perform the following steps in this order:
-  1. Flesh out scenario with Product Owner See [Original specification as a feature file (early stages)] (http://tinyurl.com/dubswcraft)
-  2. Get a failing acceptance test
-  3. Get a failing unit test
-  4. Enrich unit test with all edge cases
-  5. Complete implementation 
-  6. All tests green!
+### Key Concepts
+Characteristics that differentiate functional programming
+- Statelessness
+- Immutable Data
+- Referential Transparency
 </script></section>
+
+  <section>
+        <h2>Statelessness</h2>
+        <pre><code class="hljs" data-trim contenteditable>
+  function add(a,b) {
+    return a + b;
+  }
+
+  var x = add(1,1) // 2
+  var y = add(1,1) // 2
+  var z = add(1,1) // 2
+  </code></pre>
+    <ul>
+      <li>add always returns the same output for a given input
+    </ul>
+
+    </section>
+
+<section>
+        <h2>Immutable Data</h2>
+        <pre><code class="hljs" data-trim contenteditable>
+  function add(a,b) {
+    return a + b;
+  }
+
+  var x = add(1,1) // 2
+  var y = add(1,1) // 2
+  var z = add(1,1) // 2
+  </code></pre>
+    <ul>
+      <li>add always returns the same output for a given input
+    </ul>
+
+    </section>
+
+<section>
+        <h2>Referential Transparency</h2>
+        <pre><code class="hljs" data-trim contenteditable>
+  var x = 1
+  </code>
+  - x is a synonym for 1
+  <code>var y = x + 1</code>
+● y is a synonym for x + 1
+● y is also a synonym for 2
+
+<code>x = 2</code>
+● This is a lie, equivalent to 1 = 2
+</pre>
+    </section>
+
 
 <section data-markdown><script type="text/template">
 ### Why is concurrency hard?
 Concurrency is just too hard
+</script></section>
+
+<section>
+          <h2>We want you to stop using variables</h2>
+          <pre><code class="hljs" data-trim contenteditable>
+var account: List[Float] = ...
+
+def deposit(x: Float): Float = {
+  account = account :+ x
+  account.sum
+}
+
+def withdraw(x: Float): Float = {
+  account = account :+ (-x)
+  account.sum
+}  
+          </code></pre>
+          <ul>
+          <li>Mutable: account reference can change at any time</li>
+          <li>Imperative: evaluating deposit or withdraw makes the transaction happen</li>
+          <li>Inconsistent: account reference is accessed multiple times</li>
+          </ul>
+        </section>
+
+
+<section data-markdown><script type="text/template">
 
 ### We want you to stop using variables
+
 
 Programming with only functions (Bash)
 $ find . -name '*.java' | xargs grep -l 'function' | wc -l
