@@ -48,7 +48,7 @@
 <!-- ########################################################################################### -->
 
 <section data-markdown><script type="text/template">
-## Lets Test Drive Some Code
+## Intro to Functional Programming
 
 Dublin Software Craftsmanship Community
 </script></section>
@@ -56,7 +56,7 @@ Dublin Software Craftsmanship Community
 <!-- ########################################################################################### -->
 
 <section data-markdown><script type="text/template">
-### Format
+### State change as a side effect
 
 - Grab a pair
 - Clone https://github.com/dubswcraft/handson-bdd.git if you do not have a starting point
@@ -68,6 +68,31 @@ Dublin Software Craftsmanship Community
   5. Complete implementation 
   6. All tests green!
 </script></section>
+
+<section data-markdown><script type="text/template">
+### Why is concurrency hard?
+Concurrency is just too hard
+
+### We want you to stop using variables
+
+Programming with only functions (Bash)
+$ find . -name '*.java' | xargs grep -l 'function' | wc -l
+
+"The programmer must ensure read and write access to objects is properly coordinated (or "synchronized") between threads.”
+- Java Concurrency | Wikipedia
+
+- Grab a pair
+- Clone https://github.com/dubswcraft/handson-bdd.git if you do not have a starting point
+- Perform the following steps in this order:
+  1. Flesh out scenario with Product Owner See [Original specification as a feature file (early stages)] (http://tinyurl.com/dubswcraft)
+  2. Get a failing acceptance test
+  3. Get a failing unit test
+  4. Enrich unit test with all edge cases
+  5. Complete implementation 
+  6. All tests green!
+</script></section>
+
+
 
 <!-- ########################################################################################### -->
 
