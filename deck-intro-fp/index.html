@@ -92,7 +92,7 @@ Characteristics that differentiate functional programming
   var z = add(1,1) // 2
   </code></pre>
     <ul>
-      <li>add always returns the same output for a given input
+      <li>add always returns the same output for a given input, functions contain no hidden surprises and are entirely predictable
     </ul>
 
     </section>
@@ -112,34 +112,118 @@ Characteristics that differentiate functional programming
 </pre>
     </section>
 
-
-<section data-markdown><script type="text/template">
-### Why is concurrency hard?
-Concurrency is just too hard
-</script></section>
+<section>
+<h2>Methods on Collections</h2>
+<pre>
+  <code class="hljs" data-trim contenteditable>
+  var l = List(1,2,3,4,5)
+  l.map (x => x * x)
+  l.filter (x => x < x)
+  l.reduce ((x, y) => x + y)
+  </code>
+  <ul>
+    <li>map: applies a function on all elements of a sequence</li>
+    <li>filter: selects a set of values from a sequence based on the boolean filter passed in</li>
+    <li>reduce: combines the elements of a sequence into a single element</li>
+  </ul>
+</pre>
+</section>
 
 <section>
-          <h2>We want you to stop using variables</h2>
-          <pre><code class="hljs" data-trim contenteditable>
-var account: List[Float] = ...
+<h2>Methods on Collections</h2>
+<pre>
+  <code class="hljs" data-trim contenteditable>
+  import scala.util.Random
+  var names = Array("Mary", "Isla", "Sam")
+  var codeNames = Array("'Mr. Pink", "Mr Orange", "Mr Blonde")
 
-def deposit(x: Float): Float = {
-  account = account :+ x
-  account.sum
-}
+  var a = 0
+  for (a <- 0 until codeNames.length )
+    names(a) = Random.shuffle(codeNames.toList).head
+  </code>
+  <ul>
+    <li>First exercise - no use of var
+  </ul>
+</pre>
+</section>
 
-def withdraw(x: Float): Float = {
-  account = account :+ (-x)
-  account.sum
-}  
-          </code></pre>
-          <ul>
-          <li>Mutable: account reference can change at any time</li>
-          <li>Imperative: evaluating deposit or withdraw makes the transaction happen</li>
-          <li>Inconsistent: account reference is accessed multiple times</li>
-          </ul>
-        </section>
+<section>
+<h2>Methods on Collections</h2>
+<pre>
+  <code class="hljs" data-trim contenteditable>
+  var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
 
+  var sum = 0
+  for (a <- 0 until typing.length )
+    sum += typing(a).split(" ").size
+
+  println(sum)
+  </code>
+  <ul>
+    <li>Whats an alternative way of implementing this?</li>
+  </ul>
+</pre>
+</section>
+
+<section>
+<h2>More Methods on Collections</h2>
+<pre>
+  <code class="hljs" data-trim contenteditable>
+  var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
+
+  var sum = 0
+  for (a <- 0 until typing.length )
+    sum += typing(a).split(" ").size
+
+  println(sum)
+  </code>
+  <ul>
+    <li>Could you implement this in a functional way?</li>
+  </ul>
+</pre>
+</section>
+
+<section>
+<h2>Exercise</h2>
+<pre>
+  <code class="hljs" data-trim contenteditable>
+  case class Person(name: String, height: Int)
+  val people = List(Person("Mary", 160), Person("Isla", 80), Person("Sam", 150))
+
+  var heightTotal = 0
+  var heightCount = 0
+  var averageHeight = 0
+
+  for (person <- people) {
+    heightTotal += person.height
+    heightCount += 1
+  }
+  if (heightTotal > 0)
+    averageHeight = heightTotal / heightCount
+
+  println(averageHeight)
+  </code>
+  <ul>
+    <li>Try writing the code below using map,reduce and filter?</li>
+  </ul>
+</pre>
+</section>
+
+<section>
+<h2>Our solution</h2>
+<pre>
+  <code class="hljs" data-trim contenteditable>
+  case class Person(name: String, height: Int)
+  val people = List(Person("Mary", 160), Person("Isla", 80), Person("Sam", 150))
+
+  val heightTotal = people.map(_.height).reduce((acc, i) => acc + i)
+
+  val averageHeight = if (heightTotal <= 0) 0 else heightTotal / people.size
+
+  println(averageHeight)
+  </code>
+</pre>
+</section>
 
 <section data-markdown><script type="text/template">
 
