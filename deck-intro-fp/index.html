@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
 
     <title>Introduction to Functional Programming</title>
@@ -9,10 +9,11 @@
     <meta name="description" content="TITLE">
     <meta name="author" content="AUTHOR">
 
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/black.css" id="theme">
@@ -24,291 +25,386 @@
 
     <!-- Printing and PDF exports -->
     <script>
-      var link = document.createElement( 'link' );
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-      document.getElementsByTagName( 'head' )[0].appendChild( link );
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
     </script>
 
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div class="reveal">
+<div class="reveal">
 
-      <!-- Any section element inside of this container is displayed as a slide -->
-      <div class="slides">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
 
-<!-- ########################################################################################### -->
-<!-- START                                                                                       -->
-<!-- ########################################################################################### -->
+        <!-- ########################################################################################### -->
+        <!-- START                                                                                       -->
+        <!-- ########################################################################################### -->
 
-<section data-markdown><script type="text/template">
-## Intro to Functional Programming
+        <section data-markdown>
+            <script type="text/template">
+                ## Intro to Functional Programming
 
-Dublin Software Craftsmanship Community
-</script></section>
+                Dublin Software Craftsmanship Community
+            </script>
+        </section>
 
-<!-- ########################################################################################### -->
+        <!-- ########################################################################################### -->
 
-<section data-markdown><script type="text/template">
-### Key Concepts
-Characteristics that differentiate functional programming
-- Statelessness
-- Immutable Data
-- Referential Transparency
-</script></section>
+        <section data-markdown>
+            <script type="text/template">
+                ### Into
 
-  <section>
-        <h2>Statelessness</h2>
-        <pre><code class="hljs" data-trim contenteditable>
-  function add(a,b) {
-    return a + b;
-  }
+                “This is my take on what functional programming really is, in a way that will make sense to a jobbing programmer just trying to Get Stuff Done.”
 
-  var x = add(1,1) // 2
-  var y = add(1,1) // 2
-  var z = add(1,1) // 2
-  </code></pre>
-    <ul>
-      <li>add always returns the same output for a given input
-    </ul>
+                A lot of this presentation is based on the following blog post by Kris Jenkins:
+                http://blog.jenkster.com/2015/12/what-is-functional-programming.html
+            </script>
+        </section>
 
-    </section>
+        <section data-markdown>
+            <script type="text/template">
+                <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
+                    avoids changing-state and mutable data”</p>
+                <p class="fragment" data-fragment-index="2">But what the hell does this mean?</p>
+            </script>
+        </section>
 
-<section>
-        <h2>Immutable Data</h2>
-        <pre><code class="hljs" data-trim contenteditable>
-  function add(a,b) {
-    return a + b;
-  }
+        <section>
+            ### Lets take an example
+            <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
+                avoids changing-state and mutable data”
+              <pre>
+                <code data-trim data-noescape>
+                    Public int square (int A) {
+                      return A*A
+                    }
+                </code>
+              </pre>
+            </p>
+            <p class="fragment" data-fragment-index="2">How many inputs, how many outputs?</p>
+        </section>
 
-  var x = add(1,1) // 2
-  var y = add(1,1) // 2
-  var z = add(1,1) // 2
-  </code></pre>
-    <ul>
-      <li>add always returns the same output for a given input, functions contain no hidden surprises and are entirely predictable
-    </ul>
+        <section>
+            ### Alright… what about this one?
+            <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
+                avoids changing-state and mutable data”>
+              <pre>
+                <code data-trim data-noescape>
+                  public void processNext() {
+                      Message message = InboxQueue.popMessage();
 
-    </section>
+                      if (message != null) {
+                          process(message);
+                      }
+                  }
+                </code>
+              </pre>
+            </p>
+            <p class="fragment" data-fragment-index="2">
+              From an API point of view it makes it very difficult to reason about that function.
+              It takes no inputs, returns no output. But it has these scary things called “Side Effects”
+              What does it need to run that is not explicitly passed in, and what does it change that is not explicitly returned?
+            </p>
+        </section>
 
-<section>
-        <h2>Referential Transparency</h2>
-        <pre><code class="hljs" data-trim contenteditable>
-  var x = 1
-  </code>
-  - x is a synonym for 1
-  <code>var y = x + 1</code>
-● y is a synonym for x + 1
-● y is also a synonym for 2
+        <section>
+            ### Side effects are scary
 
-<code>x = 2</code>
-● This is a lie, equivalent to 1 = 2
-</pre>
-    </section>
+            Take a look at this function definition
+            <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
+                avoids changing-state and mutable data”>
 
-<section>
-<h2>Methods on Collections</h2>
+              <pre>
+                <code data-trim data-noescape>
+                  public boolean processMessage(Queue queue) {...}
+                </code>
+              </pre>
+            </p>
+
+            <p class="fragment" data-fragment-index="2">
+              A complexity iceberg
+            </p>
+        </section>
+
+        <section>
+            ### Are all side effects bad?
+            Not always, sometimes they are required, but they do add complixity and inherent risk to an API. 
+
+            Side effects can be scary when they change what a function will do without an real obvious reason.
+
+            When it comes to testing it is not as simple as inputs and outputs. You need to delve into the function to find the hidden meaning. Simulate the world it expected to run it, and check what it did to that world after execution.
+        </section>
+        <section>
+            ### Helps with debugging
+            Side-effects close the door to black box testing, because you can't get to the inputs & outputs without cracking the box open and learning what's inside.
+            
+            This effect is amplified for debugging. If a function doesn't allow side-effects, you can understand whether it's correct just by giving it some inputs and checking the outputs. But a function with side-effects? There's no upper-limit to how many other parts of the system you'll have to consider. When it's allowed to depend on anything, and cause anything, then the bugs could be anywhere.”
+        </section>
+
+        <section>
+            ### Can we get rid of side-effects?
+
+            <p class="fragment" data-fragment-index="1">
+              For the most part, absolutely. Lets look at an example:
+            </p>
+
+            <p class="fragment" data-fragment-index="2">
+              <pre>
+                <code data-trim data-noescape>
+                  public Program getCurrentProgram() {
+                    Schedule schedule = guide.getSchedule(channel);
+                    Program current = schedule.programAt(new Date());
+                    return current;
+                  }
+                </code>
+              </pre>
+            </p>
+
+            <p class="fragment" data-fragment-index="3">
+              Why not write it like the following:
+              <pre>
+                <code data-trim data-noescape>
+                  public Program getProgramAt(TVGuide guide, int channel, Date when) {
+                    Schedule schedule = guide.getSchedule(channel);
+                    Program program = schedule.programAt(when);
+                    return program;
+                  }
+                </code>
+              </pre>
+            </p>
+            <p class="fragment" data-fragment-index="4">
+            <ul>
+              <li>Easier to test</li>
+              <li>Easier to reason about</li>
+            </ul>
+            </p>
+
+        </section>
+        <section>
+            ### Last thing on Side Effects - I promise
+            “A function is called 'pure' if all its inputs are declared as inputs - none of them are hidden - and likewise all its outputs are declared as outputs.”
+
+            Seriously, Read this blog post: http://blog.jenkster.com/2015/12/what-is-functional-programming.html
+
+        </section>
+
+        <section>
+            <h2>Methods on Collections</h2>
 <pre>
   <code class="hljs" data-trim contenteditable>
-  var l = List(1,2,3,4,5)
-  l.map (x => x * x)
-  l.filter (x => x < x)
-  l.reduce ((x, y) => x + y)
+      var l = List(1,2,3,4,5)
+      l.map (x => x * x)
+      l.filter (x => x < x)
+      l.reduce ((x, y) => x + y)
   </code>
   <ul>
-    <li>map: applies a function on all elements of a sequence</li>
-    <li>filter: selects a set of values from a sequence based on the boolean filter passed in</li>
-    <li>reduce: combines the elements of a sequence into a single element</li>
+      <li>map: applies a function on all elements of a sequence</li>
+      <li>filter: selects a set of values from a sequence based on the boolean filter passed in</li>
+      <li>reduce: combines the elements of a sequence into a single element</li>
   </ul>
 </pre>
-</section>
+        </section>
 
-<section>
-<h2>Methods on Collections</h2>
+        <section>
+            <h2>Methods on Collections</h2>
 <pre>
   <code class="hljs" data-trim contenteditable>
-  import scala.util.Random
-  var names = Array("Mary", "Isla", "Sam")
-  var codeNames = Array("'Mr. Pink", "Mr Orange", "Mr Blonde")
+      import scala.util.Random
+      var names = Array("Mary", "Isla", "Sam")
+      var codeNames = Array("'Mr. Pink", "Mr Orange", "Mr Blonde")
 
-  var a = 0
-  for (a <- 0 until codeNames.length )
-    names(a) = Random.shuffle(codeNames.toList).head
+      var a = 0
+      for (a <- 0 until codeNames.length )
+      names(a) = Random.shuffle(codeNames.toList).head
   </code>
   <ul>
-    <li>First exercise - no use of var
+      <li>First exercise - no use of var
   </ul>
 </pre>
-</section>
+        </section>
 
-<section>
-<h2>Methods on Collections</h2>
+        <section>
+            <h2>Methods on Collections</h2>
 <pre>
   <code class="hljs" data-trim contenteditable>
-  var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
+      var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
 
-  var sum = 0
-  for (a <- 0 until typing.length )
-    sum += typing(a).split(" ").size
+      var sum = 0
+      for (a <- 0 until typing.length )
+      sum += typing(a).split(" ").size
 
-  println(sum)
+      println(sum)
   </code>
   <ul>
-    <li>Whats an alternative way of implementing this?</li>
+      <li>Whats an alternative way of implementing this?</li>
   </ul>
 </pre>
-</section>
+        </section>
 
-<section>
-<h2>More Methods on Collections</h2>
+        <section>
+            <h2>More Methods on Collections</h2>
 <pre>
   <code class="hljs" data-trim contenteditable>
-  var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
+      var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
 
-  var sum = 0
-  for (a <- 0 until typing.length )
-    sum += typing(a).split(" ").size
+      var sum = 0
+      for (a <- 0 until typing.length )
+      sum += typing(a).split(" ").size
 
-  println(sum)
+      println(sum)
   </code>
   <ul>
-    <li>Could you implement this in a functional way?</li>
+      <li>Could you implement this in a functional way?</li>
   </ul>
 </pre>
-</section>
+        </section>
 
-<section>
-<h2>Exercise</h2>
+        <section>
+            <h2>Exercise</h2>
 <pre>
   <code class="hljs" data-trim contenteditable>
-  case class Person(name: String, height: Int)
-  val people = List(Person("Mary", 160), Person("Isla", 80), Person("Sam", 150))
+      case class Person(name: String, height: Int)
+      val people = List(Person("Mary", 160), Person("Isla", 80), Person("Sam", 150))
 
-  var heightTotal = 0
-  var heightCount = 0
-  var averageHeight = 0
+      var heightTotal = 0
+      var heightCount = 0
+      var averageHeight = 0
 
-  for (person <- people) {
-    heightTotal += person.height
-    heightCount += 1
-  }
-  if (heightTotal > 0)
-    averageHeight = heightTotal / heightCount
+      for (person <- people) {
+      heightTotal += person.height
+      heightCount += 1
+      }
+      if (heightTotal > 0)
+      averageHeight = heightTotal / heightCount
 
-  println(averageHeight)
+      println(averageHeight)
   </code>
   <ul>
-    <li>Try writing the code below using map,reduce or filter?</li>
+      <li>Try writing the code below using map,reduce or filter?</li>
   </ul>
 </pre>
-</section>
+        </section>
 
-<section>
-<h2>Our solution</h2>
+        <section>
+            <h2>Our solution</h2>
 <pre>
   <code class="hljs" data-trim contenteditable>
-  case class Person(name: String, height: Int)
-  val people = List(Person("Mary", 160), Person("Isla", 80), Person("Sam", 150))
+      case class Person(name: String, height: Int)
+      val people = List(Person("Mary", 160), Person("Isla", 80), Person("Sam", 150))
 
-  val heightTotal = people.map(_.height).reduce((acc, i) => acc + i)
+      val heightTotal = people.map(_.height).reduce((acc, i) => acc + i)
 
-  val averageHeight = if (heightTotal <= 0) 0 else heightTotal / people.size
+      val averageHeight = if (heightTotal <= 0) 0 else heightTotal / people.size
 
-  println(averageHeight)
+      println(averageHeight)
   </code>
 </pre>
-</section>
+        </section>
 
-<section data-markdown><script type="text/template">
+        <section data-markdown>
+            <script type="text/template">
 
-### We want you to stop using variables
-
-
-Programming with only functions (Bash)
-$ find . -name '*.java' | xargs grep -l 'function' | wc -l
-
-"The programmer must ensure read and write access to objects is properly coordinated (or "synchronized") between threads.”
-- Java Concurrency | Wikipedia
-
-- Grab a pair
-- Clone https://github.com/dubswcraft/handson-bdd.git if you do not have a starting point
-- Perform the following steps in this order:
-  1. Flesh out scenario with Product Owner See [Original specification as a feature file (early stages)] (http://tinyurl.com/dubswcraft)
-  2. Get a failing acceptance test
-  3. Get a failing unit test
-  4. Enrich unit test with all edge cases
-  5. Complete implementation 
-  6. All tests green!
-</script></section>
+                ### We want you to stop using variables
 
 
+                Programming with only functions (Bash)
+                $ find . -name '*.java' | xargs grep -l 'function' | wc -l
 
-<!-- ########################################################################################### -->
+                "The programmer must ensure read and write access to objects is properly coordinated (or "synchronized") between threads.”
+                - Java Concurrency | Wikipedia
 
-<section data-markdown ><script type="text/template">
-## Original Specification
-#### Problem: Most frequently occurring words
+                - Grab a pair
+                - Clone https://github.com/dubswcraft/handson-bdd.git if you do not have a starting point
+                - Perform the following steps in this order:
+                1. Flesh out scenario with Product Owner See [Original specification as a feature file (early stages)] (http://tinyurl.com/dubswcraft)
+                2. Get a failing acceptance test
+                3. Get a failing unit test
+                4. Enrich unit test with all edge cases
+                5. Complete implementation
+                6. All tests green!
+            </script>
+        </section>
 
---- 
-+ Given a list of words, print the list of top N most frequently occurring words in the list together with their frequency of occurrence.
 
-+ The output should be sorted in descending order by frequency of occurrence. 
+        <!-- ########################################################################################### -->
 
-+ If two words occur with the same frequency then they should be ordered in alphabetical order. 
+        <section data-markdown>
+            <script type="text/template">
+                ## Original Specification
+                #### Problem: Most frequently occurring words
 
-</script></section>
+                ---
+                + Given a list of words, print the list of top N most frequently occurring words in the list together with their frequency of occurrence.
 
-<section data-markdown ><script type="text/template">
-## Gherkin format
+                + The output should be sorted in descending order by frequency of occurrence.
 
-```
-Feature: Word and frequency sorter
+                + If two words occur with the same frequency then they should be ordered in alphabetical order.
 
-  Scenario Outline: List of top repeated words sorted by frequency
-    Given a list of words <list>
-    And the number of top repeated words to print is <count>
-    When the word frequency program is executed
-    Then the top <count> most frequently occurring words and frequency are printed
-    And the results should be <output>
+            </script>
+        </section>
 
-  Examples:
-    | list                                                          | count | output                       |
-    | america, north, america, south, america, africa, north, korea | 3     | 3 america, 2 north, 1 africa |
+        <section data-markdown>
+            <script type="text/template">
+                ## Gherkin format
 
-```
-</script></section>
+                ```
+                Feature: Word and frequency sorter
 
-<!-- ########################################################################################### -->
+                Scenario Outline: List of top repeated words sorted by frequency
+                Given a list of words
+                <list>
+                    And the number of top repeated words to print is
+                    <count>
+                        When the word frequency program is executed
+                        Then the top
+                        <count> most frequently occurring words and frequency are printed
+                            And the results should be
+                            <output>
 
-<section data-markdown><script type="text/template">
-## Retrospective
+                                Examples:
+                                | list | count | output |
+                                | america, north, america, south, america, africa, north, korea | 3 | 3 america, 2
+                                north, 1 africa |
 
-What did you think? Use it in your day job? 
+                                ```
+            </script>
+        </section>
 
-</script></section>
+        <!-- ########################################################################################### -->
 
-<!-- ########################################################################################### -->
-<!-- END                                                                                         -->
-<!-- ########################################################################################### -->
+        <section data-markdown>
+            <script type="text/template">
+                ## Retrospective
 
-      </div>
+                What did you think? Use it in your day job?
+
+            </script>
+        </section>
+
+        <!-- ########################################################################################### -->
+        <!-- END                                                                                         -->
+        <!-- ########################################################################################### -->
 
     </div>
 
-    <script src="lib/js/head.min.js"></script>
-    <script src="js/reveal.js"></script>
+</div>
 
-    <script>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
 
-      // Full list of configuration options available at:
-      // https://github.com/hakimel/reveal.js#configuration
-      Reveal.initialize({
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
         controls: true,
         progress: true,
         history: true,
@@ -318,16 +414,32 @@ What did you think? Use it in your day job?
 
         // Optional reveal.js plugins
         dependencies: [
-          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-          { src: 'plugin/zoom-js/zoom.js', async: true },
-          { src: 'plugin/notes/notes.js', async: true }
+            {
+                src: 'lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src: 'plugin/markdown/marked.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/markdown/markdown.js', condition: function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src: 'plugin/zoom-js/zoom.js', async: true},
+            {src: 'plugin/notes/notes.js', async: true}
         ]
-      });
+    });
 
-    </script>
+</script>
 
-  </body>
+</body>
 </html>
