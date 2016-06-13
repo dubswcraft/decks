@@ -97,10 +97,9 @@ Public int square (int a) {
             <script type="text/template">
               ### Alright… what about this one?
               <pre>
-                <code data-trim data-noescape>
+                <code>
 public void processNext() {
     Message message = InboxQueue.popMessage();
-
     if (message != null) {
         process(message);
     }
@@ -108,146 +107,144 @@ public void processNext() {
                 </code>
               </pre>
             </p>
-            <p class="fragment" data-fragment-index="2">
-              From an API point of view it makes it very difficult to reason about that function.
-              It takes no inputs, returns no output. But it has these scary things called “Side Effects”
-              What does it need to run that is not explicitly passed in, and what does it change that is not explicitly returned?
+            <p class="fragment" data-fragment-index="1">
+              <ul>
+                <li>From an API point of view it makes it very difficult to reason about that function.</li>
+                <li>It takes no inputs, returns no output. But it has these scary things called “Side Effects”</li>
+                <li>What does it need to run that is not explicitly passed in, and what does it change that is not explicitly returned?</li>
+              </ul>
             </p>
             </script>
         </section>
 
-        <section>
+        <section data-markdown>
+            <script type="text/template">
             ### Side effects are scary
-
             Take a look at this function definition
-            <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
-                avoids changing-state and mutable data”>
-
-              <pre>
-                <code data-trim data-noescape>
-                  public boolean processMessage(Queue queue) {...}
-                </code>
-              </pre>
-            </p>
-
-            <p class="fragment" data-fragment-index="2">
-              A complexity iceberg
-            </p>
-        </section>
-
-        <section>
-            ### Are all side effects bad?
-            Not always, sometimes they are required, but they do add complixity and inherent risk to an API. 
-
-            Side effects can be scary when they change what a function will do without an real obvious reason.
-
-            When it comes to testing it is not as simple as inputs and outputs. You need to delve into the function to find the hidden meaning. Simulate the world it expected to run it, and check what it did to that world after execution.
-        </section>
-        <section>
-            ### Helps with debugging
-            Side-effects close the door to black box testing, because you can't get to the inputs & outputs without cracking the box open and learning what's inside.
-            
-            This effect is amplified for debugging. If a function doesn't allow side-effects, you can understand whether it's correct just by giving it some inputs and checking the outputs. But a function with side-effects? There's no upper-limit to how many other parts of the system you'll have to consider. When it's allowed to depend on anything, and cause anything, then the bugs could be anywhere.”
-        </section>
-
-        <section>
-            ### Can we get rid of side-effects?
+            <pre>
+              <code data-trim data-noescape>
+                public boolean processMessage(Queue queue) {...}
+              </code>
+            </pre>
 
             <p class="fragment" data-fragment-index="1">
-              For the most part, absolutely. Lets look at an example:
+              A complexity iceberg
             </p>
+            </script>
+        </section>
 
-            <p class="fragment" data-fragment-index="2">
-              <pre>
-                <code data-trim data-noescape>
-                  public Program getCurrentProgram() {
-                    Schedule schedule = guide.getSchedule(channel);
-                    Program current = schedule.programAt(new Date());
-                    return current;
-                  }
-                </code>
-              </pre>
-            </p>
+        <section data-markdown>
+            <script type="text/template">
+            ### Are all side effects bad?
+            <ul>
+              <li>Not always, sometimes they are required, but they do add complixity and inherent risk to an API. </li>
+              <li>Side effects can be scary when they change what a function will do without an real obvious reason.</li>
+              <li>When it comes to testing it is not as simple as inputs and outputs. You need to delve into the function to find the hidden meaning. Simulate the world it expected to run it, and check what it did to that world after execution.</li>
+            </ul>
+            </script>
+        </section>
 
-            <p class="fragment" data-fragment-index="3">
-              Why not write it like the following:
-              <pre>
-                <code data-trim data-noescape>
-                  public Program getProgramAt(TVGuide guide, int channel, Date when) {
-                    Schedule schedule = guide.getSchedule(channel);
-                    Program program = schedule.programAt(when);
-                    return program;
-                  }
-                </code>
-              </pre>
-            </p>
-            <p class="fragment" data-fragment-index="4">
+        <section data-markdown>
+            <script type="text/template">
+            ### Helps with debugging
+            <ul>
+              <li>Side-effects close the door to black box testing, because you can't get to the inputs & outputs without cracking the box open and learning what's inside.</li>
+              <li>This effect is amplified for debugging. If a function doesn't allow side-effects, you can understand whether it's correct just by giving it some inputs and checking the outputs. But a function with side-effects? There's no upper-limit to how many other parts of the system you'll have to consider. When it's allowed to depend on anything, and cause anything, then the bugs could be anywhere.”</li>
+            </ul>
+            </script>
+        </section>
+
+        <section data-markdown>
+            <script type="text/template">
+            ### Can we get rid of side-effects?
+
+            For the most part, absolutely. Lets look at an example:
+            <pre>
+              <code>
+                public Program getCurrentProgram() {
+                  Schedule schedule = guide.getSchedule(channel);
+                  Program current = schedule.programAt(new Date());
+                  return current;
+                }
+              </code>
+            </pre>
+            Why not write it like the following:
+            <pre>
+              <code>
+                public Program getProgramAt(TVGuide guide, int channel, Date when) {
+                  Schedule schedule = guide.getSchedule(channel);
+                  Program program = schedule.programAt(when);
+                  return program;
+                }
+              </code>
+            </pre>
             <ul>
               <li>Easier to test</li>
               <li>Easier to reason about</li>
             </ul>
-            </p>
-
+            </script>
         </section>
-        <section>
+
+        <section data-markdown>
             ### Last thing on Side Effects - I promise
             “A function is called 'pure' if all its inputs are declared as inputs - none of them are hidden - and likewise all its outputs are declared as outputs.”
 
             Seriously, Read this blog post: http://blog.jenkster.com/2015/12/what-is-functional-programming.html
-
         </section>
 
         <section>
             <h2>Methods on Collections</h2>
-<pre>
-  <code class="hljs" data-trim contenteditable>
-      var l = List(1,2,3,4,5)
-      l.map (x => x * x)
-      l.filter (x => x < x)
-      l.reduce ((x, y) => x + y)
-  </code>
-  <ul>
-      <li>map: applies a function on all elements of a sequence</li>
-      <li>filter: selects a set of values from a sequence based on the boolean filter passed in</li>
-      <li>reduce: combines the elements of a sequence into a single element</li>
-  </ul>
-</pre>
+              <pre>
+                <code>
+        var l = List(1,2,3,4,5)
+        l.map (x => x * x)
+        l.filter (x => x < x)
+        l.reduce ((x, y) => x + y)
+                </code>
+        </pre>
+
+        <ul>
+            <li>map: applies a function on all elements of a sequence</li>
+            <li>filter: selects a set of values from a sequence based on the boolean filter passed in</li>
+            <li>reduce: combines the elements of a sequence into a single element</li>
+        </ul>
         </section>
 
         <section>
             <h2>Methods on Collections</h2>
-<pre>
-  <code class="hljs" data-trim contenteditable>
-      import scala.util.Random
-      var names = Array("Mary", "Isla", "Sam")
-      var codeNames = Array("'Mr. Pink", "Mr Orange", "Mr Blonde")
+            <pre>
+              <code>
+        import scala.util.Random
+        var names = Array("Mary", "Isla", "Sam")
+        var codeNames = Array("'Mr. Pink", "Mr Orange", "Mr Blonde")
 
-      var a = 0
-      for (a <- 0 until codeNames.length )
-      names(a) = Random.shuffle(codeNames.toList).head
-  </code>
-  <ul>
-      <li>First exercise - no use of var
-  </ul>
-</pre>
+        var a = 0
+        for (a <- 0 until codeNames.length )
+        names(a) = Random.shuffle(codeNames.toList).head
+              </code>
+            </pre>
+              <ul>
+                  <li>First exercise in Scala - Redo this exercise without using var
+                  <li>First exercise in Java - 
+              </ul>
         </section>
 
         <section>
             <h2>Methods on Collections</h2>
-<pre>
-  <code class="hljs" data-trim contenteditable>
-      var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
+            <pre>
+              <code>
+                  var typing = Array("the quick brown fox", "jumps over the lazy", "dog")
 
-      var sum = 0
-      for (a <- 0 until typing.length )
-      sum += typing(a).split(" ").size
+                  var sum = 0
+                  for (a <- 0 until typing.length )
+                  sum += typing(a).split(" ").size
 
-      println(sum)
-  </code>
-  <ul>
-      <li>Whats an alternative way of implementing this?</li>
-  </ul>
-</pre>
+                  println(sum)
+              </code>
+            </pre>
+              <ul>
+                  <li>Whats an alternative way of implementing this?</li>
+              </ul>
         </section>
 
         <section>
@@ -422,7 +419,7 @@ public void processNext() {
             },
             {
                 src: 'plugin/markdown/marked.js', condition: function () {
-                return !!document.querySelector('[data-markdown]');
+                return !!document.0Selector('[data-markdown]');
             }
             },
             {
