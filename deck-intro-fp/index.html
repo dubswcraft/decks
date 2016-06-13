@@ -60,51 +60,51 @@
 
         <section data-markdown>
             <script type="text/template">
-                ### Into
+                ### Intro
 
-                “This is my take on what functional programming really is, in a way that will make sense to a jobbing programmer just trying to Get Stuff Done.”
+                <div class="sl-block-content" style="text-align: center;"> “This is my take on what functional programming really is, in a way that will make sense to a jobbing programmer just trying to Get Stuff Done.”</div>
 
-                A lot of this presentation is based on the following blog post by Kris Jenkins:
+                <p>
+                - A lot of this presentation is based on the following blog post by Kris Jenkins:
                 http://blog.jenkster.com/2015/12/what-is-functional-programming.html
+                </p>
             </script>
         </section>
 
         <section data-markdown>
             <script type="text/template">
-                <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
-                    avoids changing-state and mutable data”</p>
-                <p class="fragment" data-fragment-index="2">But what the hell does this mean?</p>
+                "computation as the evaluation of mathematical functions and
+                    avoids changing-state and mutable data”
+                <p class="fragment" data-fragment-index="1">But what the hell does this mean?</p>
             </script>
         </section>
 
-        <section>
+        <section data-markdown>
+            <script type="text/template">
             ### Lets take an example
-            <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
-                avoids changing-state and mutable data”
               <pre>
                 <code data-trim data-noescape>
-                    Public int square (int A) {
-                      return A*A
-                    }
+Public int square (int a) {
+  return a*a
+}
                 </code>
               </pre>
-            </p>
             <p class="fragment" data-fragment-index="2">How many inputs, how many outputs?</p>
+            </script>
         </section>
 
-        <section>
-            ### Alright… what about this one?
-            <p class="fragment" data-fragment-index="1">"computation as the evaluation of mathematical functions and
-                avoids changing-state and mutable data”>
+        <section data-markdown>
+            <script type="text/template">
+              ### Alright… what about this one?
               <pre>
                 <code data-trim data-noescape>
-                  public void processNext() {
-                      Message message = InboxQueue.popMessage();
+public void processNext() {
+    Message message = InboxQueue.popMessage();
 
-                      if (message != null) {
-                          process(message);
-                      }
-                  }
+    if (message != null) {
+        process(message);
+    }
+}
                 </code>
               </pre>
             </p>
@@ -113,6 +113,7 @@
               It takes no inputs, returns no output. But it has these scary things called “Side Effects”
               What does it need to run that is not explicitly passed in, and what does it change that is not explicitly returned?
             </p>
+            </script>
         </section>
 
         <section>
