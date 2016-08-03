@@ -48,7 +48,7 @@
 <!-- ########################################################################################### -->
 
 <section data-markdown><script type="text/template">
-## Lets Test Drive Some Code
+## Working With Legacy Code
 
 Dublin Software Craftsmanship Community
 </script></section>
@@ -56,32 +56,41 @@ Dublin Software Craftsmanship Community
 <!-- ########################################################################################### -->
 
 <section data-markdown><script type="text/template">
-### Format
+### Working with legacy code
 
-- Grab a pair
-- Clone https://github.com/dubswcraft/handson-bdd.git if you do not have a starting point
-- Perform the following steps in this order:
-  1. Flesh out scenario with Product Owner See [Original specification as a feature file (early stages)] (http://tinyurl.com/dubswcraft)
-  2. Get a failing acceptance test
-  3. Get a failing unit test
-  4. Enrich unit test with all edge cases
-  5. Complete implementation 
-  6. All tests green!
+- Working with legacy code is a scary proposition
+- Generally, we lack an understanding of the application and its codebase, and we don’t have automated test coverage.
+- Michael Feathers in his book 'Working Effectively with Legacy Code',  defines legacy code as “code without tests”.
 </script></section>
 
 <!-- ########################################################################################### -->
 
-<section data-markdown ><script type="text/template">
-## Original Specification
-#### Problem: Most frequently occurring words
+<section data-markdown><script type="text/template">
+### Where do we start?
 
---- 
-+ Given a list of words, print the list of top N most frequently occurring words in the list together with their frequency of occurrence.
+- Whenever I need to change an existing system I need a safety net. 
+- This safety net will be used during the next phases when the code will be refactored and cleaned-up. 
+- What is this safety net? 
+</script></section>
 
-+ The output should be sorted in descending order by frequency of occurrence. 
+<section data-markdown><script type="text/template">
+### Golden master or Characterization tests
 
-+ If two words occur with the same frequency then they should be ordered in alphabetical order. 
+- What are characterization/golden master tests?
+- Before making changes to legacy code, it is important to guard against unintended changes. 
+- We could even introduce bugs by “fixing” behaviour.
+- Characterization tests are a means of capturing the existing behaviour.
+- They are meant to characterize what the system is doing.
+</script></section>
 
+<section data-markdown><script type="text/template">
+### How do we write Golden Master/Characterization tests
+
+- We create a large set of diverse inputs and run them against the existing codebase.
+- By recording and saving these outputs, we capture the existing behavior.
+- These outputs from the original code base are called the 'Golden Master'
+- Later when we need to modify/improve the source, we can replay them against the original 'master' outputs.
+- Any differences between the original and new outputs help to identify unintended behaviour changes (or can be accepted if intentionally changed).
 </script></section>
 
 <section data-markdown ><script type="text/template">
@@ -110,8 +119,18 @@ Feature: Word and frequency sorter
 ## Retrospective
 
 What did you think? Use it in your day job? 
-
 </script></section>
+
+<section data-markdown><script type="text/template">
+## Resources
+
+http://blog.adrianbolboaca.ro
+http://codurance.com/blog/author/sandro-mancuso/
+http://craftedsw.blogspot.ie/2012/11/testing-legacy-code-with-golden-master.html
+https://chrismelinn.wordpress.com/2013/04/12/using-the-golden-master-technique-to-test-legacy-code/
+</script></section>
+
+
 
 <!-- ########################################################################################### -->
 <!-- END                                                                                         -->
