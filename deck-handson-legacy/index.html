@@ -126,7 +126,8 @@ Imagine a social networking website for travellers
 <section data-markdown><script type="text/template">
 ### Rules for exercise
 
-We can't change any existing code if not covered by tests. The only exception is if we need to change the code to add unit tests, but in this case, just automated refactorings (via IDE) are allowed.
+* We can't change any existing code if not covered by tests. 
+* The only exception is if we need to change the code to add unit tests, but in this case, just automated refactorings (via IDE) are allowed.
 
 </script></section>
 
@@ -135,67 +136,38 @@ We can't change any existing code if not covered by tests. The only exception is
 
 - Start testing from shortest to deepest branch. Why? There is too much setup otherwise
 - When refactoring, start from the deepest to the shortest branch. The reason for this is if you start refactoring in the middle of your code you need to have all your flags set. If you go to the deepest, then the snippet of code has everything that it needs.
-- When working with legacy code, you come across variable names your not quite sure what they do. When you do find out what they do, rename to something that makes sense.
-
+- Work in baby steps, commit early and often. This is a technique that works really well with legacy code. Why would you want to commit so often? You are working on a system that you are not familiar with. Mistakes can come out from any small change. You would not like to be in the situation where some tests stop passing and you do not know what you did.
 </script></section>
 
 <section data-markdown><script type="text/template">
 ### Working with Legacy Code Tips Cont..
 
-- There are tonnes of refactorings to apply
+- Strive for simple design
+  1. Passes its test
+  1. Minimizes duplication - tends to allow a suitable structure to emerge
+  1. Maximizes clarity - When you address bad names, you tend to see responsibilities slide into appropriate parts of the design
 
+- An example, if I find duplicated code, I'm happy to extract to a method called foo(). 
+- After a few minutes of working with foo() I understand more what foo() does, so I give it a more meaninful name computeCost().
+- As I write tests for computeCost(), I find it does more than compute cost, so I rename it to precisely what it does - findItemAndComputeCost()
+- The mere prescence of a And/Or/Then tells me that it's violating the single responsibility principle.
+- I split this method into two methods, One findItem(), the other computeCost()
+- When I look at computeCost(), I see it adds taxes and shipping charges to the net price of an item.
+- This leads me to split this behaviour into multiple method, each that applies a charge to an order item.
+- So I might now have an OrderItem class, and an OrderItemCharge interface, Shipping and Vat might be concrete implementations or OrderItemCharge.
+- These more meaningful names communicate the intent/design much better than computeCost
+
+- There are tonnes of other refactorings to apply, Martin Fowlers 'Refactoring - Improving the design of existing code' is an excellent start. 
 </script></section>
 
 <section data-markdown><script type="text/template">
-### Extract conditionals to clearly defined variable names.
- - if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12 - what is this doing? 
- - what is places? what is 11, what is 12?, why does it go to places - 12
+### Resources
 
-</script></section>
-
-<section data-markdown><script type="text/template">
-### Feature envy
- - if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12 - what is this doing? 
- - what is places? what is 11, what is 12?, why does it go to places - 12
-
-</script></section>
-
-<section data-markdown ><script type="text/template">
-## Gherkin format
-
-```
-Feature: Word and frequency sorter
-
-  Scenario Outline: List of top repeated words sorted by frequency
-    Given a list of words <list>
-    And the number of top repeated words to print is <count>
-    When the word frequency program is executed
-    Then the top <count> most frequently occurring words and frequency are printed
-    And the results should be <output>
-
-  Examples:
-    | list                                                          | count | output                       |
-    | america, north, america, south, america, africa, north, korea | 3     | 3 america, 2 north, 1 africa |
-
-```
-</script></section>
-
-<!-- ########################################################################################### -->
-
-<section data-markdown><script type="text/template">
-## Retrospective
-
-What did you think? Use it in your day job? 
-</script></section>
-
-<section data-markdown><script type="text/template">
-## Resources
-
-http://blog.adrianbolboaca.ro
-http://codurance.com/blog/author/sandro-mancuso/
-http://craftedsw.blogspot.ie/2012/11/testing-legacy-code-with-golden-master.html
-https://chrismelinn.wordpress.com/2013/04/12/using-the-golden-master-technique-to-test-legacy-code/
-http://blog.jbrains.ca/permalink/the-four-elements-of-simple-design
+* http://blog.adrianbolboaca.ro
+* http://codurance.com/blog/author/sandro-mancuso/
+* http://craftedsw.blogspot.ie/2012/11/testing-legacy-code-with-golden-master.html
+* https://chrismelinn.wordpress.com/2013/04/12/using-the-golden-master-technique-to-test-legacy-code/
+* http://blog.jbrains.ca/permalink/the-four-elements-of-simple-design
 </script></section>
 
 
