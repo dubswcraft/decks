@@ -172,6 +172,19 @@ Strive for simple design
 </script></section>
 
 <section data-markdown><script type="text/template">
+### Add a feature - I want to be able to support different reports (JSON, text, XML)
+
+* Still have time? Identify and fix an area of code which breaks the single responsiblity principle (ahem, it's in the report thats generated)
+* For now we only need to support text interface, but client wants it extensible with ease.
+* Use the following steps:
+  1. Extract the offending behaviour into its own method or function. 
+  1. Move that method to a new class and make it publicly accessible.
+  1. Write tests for it
+  1. Refactor until you like the interface 
+</script></section>
+
+
+<section data-markdown><script type="text/template">
 ### Retro
 
 * How did you find it? Comments feedback welcome
